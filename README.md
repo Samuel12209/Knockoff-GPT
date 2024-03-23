@@ -1,6 +1,6 @@
 # Dolphin LM | Status: Non functional
 
-# Dolphin LM
+# Dolphin Model
 You can find the LM [here](https://huggingface.co/PsiPi/ehartford_dolphin-2.5-mixtral-8x7b-exl2-3.2bpw))
 
 # Setup
