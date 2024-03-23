@@ -9,4 +9,4 @@ it will install them model(~26GB) and will use 48 Gigs  of ram Maximum but is op
 
 # Setup for discord
 
-Do the previous step but instead of a .bat run the python file
+Do the previous step and then run the python file
