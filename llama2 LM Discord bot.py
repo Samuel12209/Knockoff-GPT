@@ -3,9 +3,8 @@ from discord.ext import commands
 import requests
 import json
 
-TOKEN = 'Discord bot token'
+TOKEN = 'discord token'
 API_URL = 'http://localhost:12345/api/generate'
-
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -29,7 +28,11 @@ async def on_message(message):
     if message.content.startswith('/ask'):
         prompt = message.content.split('/ask ', 1)[1]
         response = generate_response(prompt)
-        await message.channel.send(response)
+        if isinstance(response, tuple):
+            await message.channel.send(response[0])
+            await message.channel.send(response[1])
+        else:
+            await message.channel.send(response)
 
     if message.content.startswith('/test'):
         await message.channel.send('On')
@@ -60,7 +63,13 @@ def generate_response(prompt):
                             adjusted_text += char
                             prev_char = char
                         final_response += adjusted_text
-            return final_response.strip()
+                        
+            if len(final_response) > 1990:
+                cutoff_response = final_response[:1990].strip()
+                remaining_response = final_response[1990:].strip()
+                return cutoff_response, remaining_response
+            else:
+                return final_response.strip()
         else:
             return f"Error generating response: {response.status_code}"
     except Exception as e:
