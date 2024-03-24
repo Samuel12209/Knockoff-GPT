@@ -1,12 +1,17 @@
 import discord
+from discord.ext import commands
 import requests
 import json
 
 TOKEN = 'Discord bot token'
-API_URL = 'http://localhost:11434/api/generate'
+API_URL = 'http://localhost:12345/api/generate'
+
 
 intents = discord.Intents.default()
-client = discord.Client(intents=intents)
+intents.messages = True
+intents.message_content = True
+
+client = commands.Bot(command_prefix='/', intents=intents)
 
 @client.event
 async def on_ready():
@@ -17,6 +22,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if isinstance(message.channel, discord.DMChannel):
+        await message.channel.send("**Direct Messages not allowed**")
+        return
+    
     if message.content.startswith('/ask'):
         prompt = message.content.split('/ask ', 1)[1]
         response = generate_response(prompt)
@@ -32,8 +41,6 @@ def generate_response(prompt):
     }
     try:
         response = requests.post(API_URL, json=data)
-        print("Response status code:", response.status_code)
-        print("Response content:", response.content)
         if response.status_code == 200:
             responses = response.content.decode().split('\n')
             final_response = ''
