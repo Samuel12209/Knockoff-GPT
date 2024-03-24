@@ -1,5 +1,2 @@
 $env:OLLAMA_HOST="localhost:12345",
 ollama serve
-
-2nd terminal:
-ollama run llama2:7b
