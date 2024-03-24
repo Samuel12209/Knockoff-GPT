@@ -1,0 +1,2 @@
+ollama serve --host=localhost:11434
+ollama run dolphin-mixtral:latest
