@@ -1,0 +1,2 @@
+$env:OLLAMA_HOST="localhost:12345"
+ollama serve
