@@ -1,4 +1,4 @@
-# llama2 LM Discord bot | Status: Non functional
+# llama2 LM Discord bot | Status: functional
 
 # llama2 Model
 You can find the LM [here](https://ollama.com/library/llama2:7b)
