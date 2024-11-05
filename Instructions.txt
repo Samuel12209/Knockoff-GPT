@@ -1,2 +1,4 @@
+run these in powershell or what terminal you use
+
 $env:OLLAMA_HOST="localhost:12345"
 ollama serve
