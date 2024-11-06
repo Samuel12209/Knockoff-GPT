@@ -4,8 +4,9 @@ import requests
 import json
 import asyncio
 
-TOKEN = 'Bot_Token' # put you bot token here
+TOKEN = 'Your bot token!'
 API_URL = 'http://localhost:12345/api/generate'
+YOUR_USER_ID = 12345 # Replace with your Discord User ID
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -15,12 +16,27 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
+    try:
+        # Force sync global commands
+        synced = await bot.tree.sync()
+        print("Global commands synced successfully.")
+        print(f"Commands synced: {synced}")
+    except Exception as e:
+        print(f"Error syncing commands: {e}")
 
-@bot.slash_command(description="Ask a question to the bot")
-async def ask(ctx, prompt: str):
-    loading_message = await ctx.respond("Loading...")
-    response = await generate_response(prompt, ctx.channel)
-    await loading_message.edit(content=response)
+@bot.tree.command(name="ask", description="Ask a question to the bot")
+async def ask(interaction: discord.Interaction, prompt: str):
+    # Check if the command was issued by you
+    if interaction.user.id != YOUR_USER_ID:
+        await interaction.response.send_message("You are not authorized to use this command.", ephemeral=True)
+        return
+
+    # Provide initial response indicating that the bot is processing
+    await interaction.response.send_message("Loading...", ephemeral=True)
+    response = await generate_response(prompt, interaction.channel)
+    
+    # Use followup to edit the original response
+    await interaction.followup.send(content=response)
 
 @bot.command()
 async def test(ctx):
@@ -34,7 +50,7 @@ async def generate_response(prompt, channel):
         "model": "llama2",
         "prompt": prompt
     }
-    
+
     try:
         response = requests.post(API_URL, json=data, stream=True)
         response.raise_for_status()
@@ -61,3 +77,4 @@ async def generate_response(prompt, channel):
         await send_message(channel, f"Error generating response: {e}")
 
 bot.run(TOKEN)
+
