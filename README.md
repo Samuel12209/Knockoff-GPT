@@ -14,7 +14,9 @@
 - Ollama also has a variety of other learning machines you can use instead of llama2:7b
 
 # 🛠️Setup
-- First download and setup ollama then go to [llama2](https://ollama.com/library/llama2:7b) model and run the steps there. 
+- Run ```git clone https://github.com/Samuel12209/Knockoff-GPT.git``` to get started
+
+- then download and setup ollama then go to [llama2](https://ollama.com/library/llama2:7b) model and run the steps there. 
 
 - After, Run the command ```$env:OLLAMA_HOST="localhost:12345"``` then ```ollama serve``` 
 
@@ -31,4 +33,4 @@ it will install them model(~7GB) and will use 16 Gigs  of ram Maximum but is ope
 
 - If you run into the problem of your port being allready used, you can go into task manager and terminate ollama. If you dont want to or its needed then you can change the port number
 
-- If you keep getting 404 responses or 403 run ```ollama pull llama2```
+- If you keep getting 404 responses or 403 run ```ollama pull llama2``` *if your using a diffrent LM then "llama2" would be the name of your LM*
